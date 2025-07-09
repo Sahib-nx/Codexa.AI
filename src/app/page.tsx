@@ -1,13 +1,12 @@
-import { Button } from '@/components/ui/button';
+
 import React from 'react'
 
-const Page = () => {
+const Page = async () => {
+
   return (
-    <div>
-      <Button>
-        Click me 
-      </Button>
-    </div>
+ <div>
+  wdefrghjm
+ </div>
   )
 }
 
