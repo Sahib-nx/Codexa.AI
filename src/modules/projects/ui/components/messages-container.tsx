@@ -27,16 +27,16 @@ export const MessagesContainer = ({
         refetchInterval: 5000,
     }));
 
+    // this is causing problemm
+    // useEffect(() => {
+    //     const lastAssistantMessageWithFragment = messages.findLast(
+    //         (message) => message.role === "ASSISTANT" && !!message.fragment,
+    //     );
 
-    useEffect(() => {
-        const lastAssistantMessageWithFragment = messages.findLast(
-            (message) => message.role === "ASSISTANT" && !!message.fragment,
-        );
-
-        if(lastAssistantMessageWithFragment) {
-           setActiveFragment(lastAssistantMessageWithFragment.fragment)
-        }
-    }, [messages, setActiveFragment]);
+    //     if(lastAssistantMessageWithFragment) {
+    //        setActiveFragment(lastAssistantMessageWithFragment.fragment)
+    //     }
+    // }, [messages, setActiveFragment]);
 
 
     useEffect(() => {
