@@ -19,6 +19,7 @@ export const MessagesContainer = ({
 
 }: Props) => {
     const bottomRef = useRef<HTMLDivElement>(null);
+    const lastAssistantMessageIdRef = useRef<string | null>(null);
     const trpc = useTRPC();
     const { data: messages } = useSuspenseQuery(trpc.messages.getMany.queryOptions({
         projectId: projectId,
@@ -27,16 +28,19 @@ export const MessagesContainer = ({
         refetchInterval: 5000,
     }));
 
-    // this is causing problemm
-    // useEffect(() => {
-    //     const lastAssistantMessageWithFragment = messages.findLast(
-    //         (message) => message.role === "ASSISTANT" && !!message.fragment,
-    //     );
+    useEffect(() => {
+        const lastAssistantMessage = messages.findLast(
+            (message) => message.role === "ASSISTANT"
+        );
 
-    //     if(lastAssistantMessageWithFragment) {
-    //        setActiveFragment(lastAssistantMessageWithFragment.fragment)
-    //     }
-    // }, [messages, setActiveFragment]);
+        if(
+            lastAssistantMessage?.fragment &&
+            lastAssistantMessage.id !== lastAssistantMessageIdRef.current
+        ) {
+            setActiveFragment(lastAssistantMessage.fragment);
+            lastAssistantMessageIdRef.current = lastAssistantMessage.id;
+        }
+    }, [messages, setActiveFragment]);
 
 
     useEffect(() => {
