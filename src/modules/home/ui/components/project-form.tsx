@@ -15,6 +15,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { PROJECT_TEMPLATES } from "../../constance";
+import { useClerk } from "@clerk/nextjs";
 
 const formSchema = z.object({
     value: z.string()
@@ -26,6 +27,7 @@ export const ProjectForm = () => {
     const router = useRouter();
     const trpc = useTRPC();
     const queryClient = useQueryClient();
+    const clerk = useClerk();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -43,8 +45,11 @@ export const ProjectForm = () => {
             //TODO: invalidate usage status
         },
         onError: (error) => {
-            // Redirect to pricing page if specific error
             toast.error(error.message)
+            if (error.data?.code === "UNAUTHORIZED") {
+                clerk.openSignIn();
+            }
+            // Redirect to pricing page if specific error
         }
     }));
 
