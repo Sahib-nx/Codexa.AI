@@ -10,8 +10,8 @@ const Page = () => {
          <Image 
          src="/logo.svg"
          alt="Codexa"
-         width={80}
-         height={80}
+         width={100}
+         height={100}
          className="hidden md:block" 
          />
         </div>
